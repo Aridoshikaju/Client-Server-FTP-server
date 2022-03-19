@@ -52,7 +52,6 @@ def list_files():
         print(f"Listing files...")
         # Get list of files in directory
         listing = os.listdir(os.getcwd())
-        print(os.getcwd)
         # Send over the number of files, so the client knows what to expect (and avoid some errors)
         print(len(listing))
         conn.sendall(struct.pack("i", len(listing)))

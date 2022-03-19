@@ -36,13 +36,13 @@ def upld(file_name):
     try:
         # Wait for server acknowledgement then send file details
         # Wait for server ok
-        print("here 1")
+        #print("here 1")
         s.recv(BUFFER_SIZE)
         # Send file name size and file name
         s.sendall(struct.pack("h", sys.getsizeof(file_name)))
-        print("here 2")
+        #print("here 2")
         s.sendall(str(file_name).encode())
-        print("here 3")
+        #print("here 3")
         # Wait for server ok then send file size
         s.recv(BUFFER_SIZE)
         s.send(struct.pack("i", os.path.getsize(file_name)))
@@ -98,6 +98,7 @@ def list_files():
     try:  
         # Final check
         s.sendall(b"1")
+        print("Got final confirmation from the server")
         return
     except:
         print(f"Couldn't get final server confirmation")
@@ -117,8 +118,8 @@ def dwld(file_name):
         # Wait for server ok, then make sure file exists
         s.recv(BUFFER_SIZE)
         # Send file name length, then name
-        s.send(struct.pack("h", sys.getsizeof(file_name)))
-        s.send(file_name)
+        s.sendall(struct.pack("h", sys.getsizeof(file_name)))
+        s.sendall(str(file_name).encode())
         # Get file size (if exists)
         file_size = struct.unpack("i", s.recv(4))[0]
         if file_size == -1:
