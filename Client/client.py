@@ -36,10 +36,13 @@ def upld(file_name):
     try:
         # Wait for server acknowledgement then send file details
         # Wait for server ok
+        print("here 1")
         s.recv(BUFFER_SIZE)
         # Send file name size and file name
-        s.send(struct.pack("h", sys.getsizeof(file_name)))
-        s.send(file_name)
+        s.sendall(struct.pack("h", sys.getsizeof(file_name)))
+        print("here 2")
+        s.sendall(str(file_name).encode())
+        print("here 3")
         # Wait for server ok then send file size
         s.recv(BUFFER_SIZE)
         s.send(struct.pack("i", os.path.getsize(file_name)))

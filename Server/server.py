@@ -1,3 +1,4 @@
+from fileinput import filename
 import socket
 import sys
 import time
@@ -23,6 +24,8 @@ def upld():
     # Recieve file name length, then file name
     file_name_size = struct.unpack("h", conn.recv(2))[0]
     file_name = conn.recv(file_name_size)
+    print("herer 1")
+    print(file_name)
     # Send message to let client know server is ready for document content
     conn.sendall(b"1")
     # Recieve file size
@@ -147,23 +150,23 @@ while True:
     print(f"\n\nWaiting for instruction")
     data = conn.recv(BUFFER_SIZE)
     data = str(data.upper())
-    print(data)
-    if data=="UPLD":
-        print("Fuck1")
-    if(data=="b'LIST'"):
-        print("finalllydjsabhjbcjhbchjdcbjhdcbsdcbsdcbajdbchagbdvhba fvhkdkhb")
+    # print(data)
+    # if data=="UPLD":
+    #     print("Check 1")
+    # if(data=="b'LIST'"):
+    #     print("Check 2")
         
     print(f"\nRecieved instruction: {data}")
     # Check the command and respond correctly
-    if data == "UPLD":
+    if data == "b'UPLD'":
         upld()
     elif data == "b'LIST'":
         list_files()
-    elif data == "DWLD":
+    elif data == "b'DWLD'":
         dwld()
-    elif data == "DELF":
+    elif data == "b'DELF'":
         delf()
-    elif data == "QUIT":
+    elif data == "b'QUIT'":
         quit()
     # Reset the data to loop
     data = None
